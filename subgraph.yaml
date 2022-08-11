@@ -1,0 +1,58 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: FNFTCollectionFactory
+    network: ethereum
+    source:
+      abi: FNFTCollectionFactory
+      address: "0xe4C1544F8d0D3a34201D539DB10B729667E095E1"
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - FNFTCollection
+      abis:
+        - name: FNFTCollectionFactory
+          file: ./abis/FNFTCollectionFactory.json
+      eventHandlers:
+        - event: VaultCreated(indexed uint256,address,address,address,string,string)
+          handler: handleVaultCreated
+      file: ./src/FNFTCollection.ts
+templates:
+  - name: FNFTCollection
+    kind: ethereum
+    network: ethereum
+    source:
+      abi: FNFTCollection
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - FNFTCollection
+        - UserFNFTCollection
+      abis:
+        - name: FNFTCollection
+          file: ./abis/FNFTCollection.json
+        - name: ERC721
+          file: ./abis/ERC721.json
+      eventHandlers:
+        - event: Minted(uint256[],uint256[],address)
+          handler: handleMinted
+        - event: Redeemed(uint256[],uint256[],address)
+          handler: handleRedeemed
+        - event: Swapped(uint256[],uint256[],uint256[],uint256[],address)
+          handler: handleSwapped
+        - event: AuctionStarted(indexed address,uint256,uint256)
+          handler: handleAuctionStarted
+        - event: BidMade(indexed address,uint256,uint256)
+          handler: handleBidMade
+        - event: AuctionWon(indexed address,uint256,uint256)
+          handler: handleAuctionWon
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/FNFTCollection.ts

@@ -1,0 +1,24 @@
+{
+  "name": "renaissance-subgraph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "test": "graph build && graph test",
+    "deploy": "graph deploy --product hosted-service $SLUG",
+    "deploy:aws:aurora-testnet": "docker context create ecs renaissance-subgraph-testnet && docker context use renaissance-subgraph-testnet && docker compose up --env-file .env",
+    "deploy:subgraph:aurora-testnet": "graph deploy --node http://34.237.64.3:8020/ --ipfs http://34.237.64.3:5001/ renaissance-subgraph-testnet",
+    "create:subgraph:aurora-testnet": "graph create --node http://34.237.64.3:8020/ renaissance-subgraph-testnet",
+    "create": "graph create renaissancesubgraph --node https://api.thegraph.com/deploy",
+    "create-local": "graph create --node http://localhost:8020/ renaissance-subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ renaissance-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 renaissance-subgraph"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.33.0",
+    "@graphprotocol/graph-ts": "^0.27.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "^0.5.0"
+  }
+}

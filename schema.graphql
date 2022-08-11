@@ -1,0 +1,45 @@
+type FNFTCollection @entity {
+  id: ID! # FNFTCollection Address
+  vaultId: BigInt! # FNFT vaultId
+  name: String!
+  symbol: String!
+  curator: String!
+  createdAt: BigInt!
+
+  nftAddress: String! # NFT Address
+
+  count: Int!
+  state: String! #public
+}
+
+type FNFTCollectionItem @entity {
+  id: ID! # FNFTCollectionAddress-TokenId
+  vault: FNFTCollection!
+  depositor: String!
+  createdAt: BigInt!
+  tokenId: BigInt! # NFT TokenId
+  tokenURI: String!
+
+  latestBid: BigDecimal!
+  highestBid: BigDecimal!
+  state: String! # public, auction, redeemed
+  latestBidAt: BigInt!
+  auctionWinner: String
+}
+
+type FNFTCollectionItemBidHistory @entity {
+  id: ID! # FNFTCollectionAddress-tokenId-UserAddress-UUID
+  user: String!
+  item: FNFTCollectionItem!
+  amount: BigDecimal!
+  createdAt: BigInt!
+}
+
+# Listens to Transfer event on ERC20 for updates
+type UserFNFTCollection @entity {
+  id: ID! # UserAddress-FNFTAddress
+  user: String!
+  vault: FNFTCollection!
+  amount: BigDecimal!
+  updatedAt: BigInt!
+}
